@@ -11,6 +11,15 @@ class Client(object):
         self.socket = socket
         self.address = address
         self.username = username
+    
+    def build(client_data_tuple):
+        client_socket, client_address = client_data_tuple
+    
+        client_socket.send(("[Servidor]: Insira seu nome de usuário: ").encode(utf_8_encoding))
+
+        username = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
+
+        return Client(client_socket, client_address, username)
 
 def handle_client(client):
     try: 
@@ -37,19 +46,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     print("Server started.")
 
     while True:
-        # ver se tem uma forma de mover isso aqui para um builder, evitando todas essas chamadas usando o socket
-        # com o objeto desestruturado
-        client_socket, client_address = server_socket.accept()
-        
-        client_socket.send(("[Servidor]: Insira seu nome de usuário: ").encode(utf_8_encoding))
-        username = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
+        client = Client.build(server_socket.accept())
 
-        client_socket.send(("[Servidor]: Bem-vindo, %s." %str(username)).encode(utf_8_encoding))
-        #até aqui.
-
-        print("User %s connected." %username)
-
-        client = Client(client_socket, client_address, username)
+        print("User %s connected." %client.username)
+        client.socket.send(("[Servidor]: Bem-vindo, %s." %str(client.username)).encode(utf_8_encoding))
 
         client_processing_thread = threading.Thread(target=handle_client, args=(client,))
         client_processing_thread.start()
