@@ -1,5 +1,5 @@
 import socket
-
+import threading
 
 host = 'localhost'
 port = 12345
@@ -7,7 +7,7 @@ encoding = 'utf-8'
 
 data_payload_limit = 2048 
 
-def proccess_client(conn, addr):
+def client_handler(conn, addr):
     try: 
         client_connected = conn is not None
 
@@ -29,8 +29,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.bind(server_address)
 
     server_socket.listen(5)
-    print("Server runing")
+    print("Server started.")
 
     while True:
         conn, addr = server_socket.accept()
-        proccess_client(conn, addr)
+        client_processing_thread = threading.Thread(target=client_handler, args=(conn, addr))
+        client_processing_thread.start()
