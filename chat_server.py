@@ -3,18 +3,18 @@ import threading
 
 host = 'localhost'
 port = 12345
-encoding = 'utf-8'
+utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 
-def client_handler(conn, addr):
+def handle_client(client_socket, client_address):
     try: 
-        client_connected = conn is not None
+        client_connected = client_socket is not None
 
         while client_connected:
-            message = conn.recv(data_payload_limit).decode(encoding)
+            message = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
             if message:
                 print(message)
-                conn.send(("200 OK message received").encode(encoding))
+                client_socket.send(("200 OK message received").encode(utf_8_encoding))
     except socket.error as e:
         print("Socket error: %s" %str(e))
     except Exception as e:
@@ -31,6 +31,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     print("Server started.")
 
     while True:
-        conn, addr = server_socket.accept()
-        client_processing_thread = threading.Thread(target=client_handler, args=(conn, addr))
+        client_socket, client_address = server_socket.accept()
+        client_socket.send(("Insira seu nome de usuário: ").encode(utf_8_encoding))
+        username = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
+        print("username: " + username)
+        client_socket.send(("Bem-vindo %s" %str(username)).encode(utf_8_encoding))
+
+        client_processing_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
         client_processing_thread.start()
