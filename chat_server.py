@@ -32,10 +32,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
     while True:
         client_socket, client_address = server_socket.accept()
-        client_socket.send(("Insira seu nome de usuário: ").encode(utf_8_encoding))
+        
+        client_socket.send(("[Servidor]: Insira seu nome de usuário: ").encode(utf_8_encoding))
         username = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
-        print("username: " + username)
-        client_socket.send(("Bem-vindo %s" %str(username)).encode(utf_8_encoding))
+        print("User %s connected." %username)
+
+        client_socket.send(("[Servidor]: Bem-vindo, %s." %str(username)).encode(utf_8_encoding))
 
         client_processing_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
         client_processing_thread.start()
