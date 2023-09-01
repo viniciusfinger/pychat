@@ -16,3 +16,7 @@ try:
 
 except socket.error as e:
     print("Socket error: %s" %str(e))
+
+except Exception as e:
+    print("Unexpected error: %s" %str(e))
+    raise e

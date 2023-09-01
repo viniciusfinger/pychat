@@ -4,8 +4,7 @@ import threading
 host = 'localhost'
 port = 12345
 encoding = 'utf-8'
-
-data_payload_limit = 2048 
+data_payload_limit = 2048
 
 def client_handler(conn, addr):
     try: 
