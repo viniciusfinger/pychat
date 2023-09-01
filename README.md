@@ -14,7 +14,8 @@ Para iniciar o cliente, use o comando `python3 chat_client.py`. Automaticamente 
 
 ## To-do
 - [x]  Criar estrutura para encapsular clientes
-- [ ]  Criar estrutura de subscribers para repassar as mensagens para os clientes
+- [x]  Criar estrutura de subscribers para repassar as mensagens para os clientes
+- [ ]  Ao enviar mensagem, o cliente não pode ficar com a mensagem repetida (talvez um if validando se client != listener_client)
 - [ ]  Criar estrutura para armazenamento de mensagens no cliente que permita ordenação por hora (talvez encapsular as mensagens.)
 - [ ]  Criar uma forma de armazenar arquivos no servidor e transitar isso para o cliente
 - [ ]  Criar uma forma do cliente enviar arquivos para o servidor
