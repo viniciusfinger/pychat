@@ -30,3 +30,5 @@ while True:
     except Exception as e:
         print("Unexpected error: %s" %str(e))
         raise e
+
+client_socket.close()
