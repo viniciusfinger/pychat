@@ -25,6 +25,7 @@ class Client(object):
 def handle_client(client):
     try: 
         client_is_connected = client.socket is not None
+        notify_other_clients("[Servidor]: '%s' se conectou ao chat." %str(new_client.username), client)
 
         while client_is_connected:
             message = client.socket.recv(data_payload_limit).decode(utf_8_encoding)
@@ -32,18 +33,19 @@ def handle_client(client):
             if message:
                 message = client.username + ": " + message
                 print(message)
-            
-                with lock:
-                    for listener_client in clients_listening: 
-                        if listener_client != client:
-                            listener_client.socket.send((message).encode(utf_8_encoding))
+                notify_other_clients(message, client)
 
     except socket.error as e:
-        print("Socket error: %s" %str(e))
+        print("[Servidor]: Erro no socket: %s" %str(e))
     except Exception as e:
-        print("Unexpected error: %s" %str(e))
+        print("[Servidor]: Erro inesperado: %s" %str(e))
         raise e
 
+def notify_other_clients(message, client_to_not_notify):
+    with lock:
+        for listener_client in clients_listening: 
+            if listener_client != client_to_not_notify:
+                listener_client.socket.send((message).encode(utf_8_encoding))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -51,7 +53,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.bind(server_address)
 
     server_socket.listen(5)
-    print("Server started.")
+    print("[Servidor]: Iniciado com sucesso.")
 
     while True:
         new_client = Client.build(server_socket.accept())
@@ -59,8 +61,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         with lock:
             clients_listening.append(new_client)
 
-        # to-do: avisar a todos clients que um cliente novo foi conectado
-        print("User '%s' connected." %new_client.username)
+        print("[Servidor] usuário '%s' conectado." %new_client.username)
 
         new_client.socket.send(("[Servidor]: Bem-vindo, %s." %str(new_client.username)).encode(utf_8_encoding))
 
