@@ -21,19 +21,21 @@ class Client(object):
 
         return Client(client_socket, client_address, username)
 
-def handle_client(listener_client):
+def handle_client(client):
     try: 
-        client_connected = listener_client.socket is not None
+        client_is_connected = client.socket is not None
 
-        while client_connected:
-            message = listener_client.socket.recv(data_payload_limit).decode(utf_8_encoding)
+        while client_is_connected:
+            message = client.socket.recv(data_payload_limit).decode(utf_8_encoding)
+            
             if message:
-                message = listener_client.username + ": " + message
+                message = client.username + ": " + message
                 print(message)
-
+            
+                # to-do: adicionar lock
                 for listener_client in clients_listening: 
-                    #if listener_client != client:
-                    listener_client.socket.send((message).encode(utf_8_encoding))
+                    if listener_client != client:
+                        listener_client.socket.send((message).encode(utf_8_encoding))
 
     except socket.error as e:
         print("Socket error: %s" %str(e))
@@ -51,13 +53,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     print("Server started.")
 
     while True:
-        client = Client.build(server_socket.accept())
+        new_client = Client.build(server_socket.accept())
 
-        clients_listening.append(client)
+        # to-do: adicionar lock 
+        clients_listening.append(new_client)
 
-        print("User '%s' connected." %client.username)
+        # to-do: avisar a todos clients que um cliente novo foi conectado
+        print("User '%s' connected." %new_client.username)
 
-        client.socket.send(("[Servidor]: Bem-vindo, %s." %str(client.username)).encode(utf_8_encoding))
+        new_client.socket.send(("[Servidor]: Bem-vindo, %s." %str(new_client.username)).encode(utf_8_encoding))
 
-        client_processing_thread = threading.Thread(target=handle_client, args=(client,))
-        client_processing_thread.start()
+        client_handling_thread = threading.Thread(target=handle_client, args=(new_client,))
+        client_handling_thread.start()
