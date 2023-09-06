@@ -21,6 +21,10 @@ class Client(object):
         username = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
 
         return Client(client_socket, client_address, username)
+    
+    def sendMessage(self, message):
+        self.socket.send((message).encode(utf_8_encoding))
+
 
 def handle_client(client):
     try: 
@@ -45,7 +49,7 @@ def notify_other_clients(message, client_to_not_notify):
     with lock:
         for listener_client in clients_listening: 
             if listener_client != client_to_not_notify:
-                listener_client.socket.send((message).encode(utf_8_encoding))
+                listener_client.sendMessage(message)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -63,7 +67,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
         print("[Servidor] usuário '%s' conectado." %new_client.username)
 
-        new_client.socket.send(("[Servidor]: Bem-vindo, %s." %str(new_client.username)).encode(utf_8_encoding))
+        new_client.sendMessage("[Servidor]: Bem-vindo, %s." %str(new_client.username))
 
         client_handling_thread = threading.Thread(target=handle_client, args=(new_client,))
         client_handling_thread.start()
