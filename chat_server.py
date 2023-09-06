@@ -6,6 +6,7 @@ port = 12345
 utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 clients_listening = []
+lock = threading.Lock()
 
 class Client(object):
     def __init__(self, socket, address, username):
@@ -32,10 +33,10 @@ def handle_client(client):
                 message = client.username + ": " + message
                 print(message)
             
-                # to-do: adicionar lock
-                for listener_client in clients_listening: 
-                    if listener_client != client:
-                        listener_client.socket.send((message).encode(utf_8_encoding))
+                with lock:
+                    for listener_client in clients_listening: 
+                        if listener_client != client:
+                            listener_client.socket.send((message).encode(utf_8_encoding))
 
     except socket.error as e:
         print("Socket error: %s" %str(e))
@@ -55,8 +56,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     while True:
         new_client = Client.build(server_socket.accept())
 
-        # to-do: adicionar lock 
-        clients_listening.append(new_client)
+        with lock:
+            clients_listening.append(new_client)
 
         # to-do: avisar a todos clients que um cliente novo foi conectado
         print("User '%s' connected." %new_client.username)
