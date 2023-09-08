@@ -65,7 +65,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         with lock:
             clients_listening.append(new_client)
 
-        print("[Servidor] usuário '%s' conectado." %new_client.username)
+        print("[Servidor]: usuário '%s' conectado." %new_client.username)
 
         new_client.sendMessage("[Servidor]: Bem-vindo, %s." %str(new_client.username))
 
