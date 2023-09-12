@@ -67,7 +67,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
         print("[Servidor]: usuário '%s' conectado." %new_client.username)
 
-        new_client.sendMessage("[Servidor]: Bem-vindo, %s." %str(new_client.username))
+        new_client.sendMessage("[Servidor]: Bem-vindo, %s. Para listar os comandos, digite @AJUDA" %str(new_client.username))
 
         client_handling_thread = threading.Thread(target=handle_client, args=(new_client,))
         client_handling_thread.start()

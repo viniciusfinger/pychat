@@ -91,7 +91,9 @@ while run_program:
             client_socket.send(message.content.encode(utf_8_encoding))
 
     except socket.error as e:
+        client_socket.close()
         print("Socket error: %s" %str(e))
     except Exception as e:
+        client_socket.close()
         print("Unexpected error: %s" %str(e))
         raise e
