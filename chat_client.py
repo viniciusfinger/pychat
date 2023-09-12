@@ -1,18 +1,43 @@
 import socket
 import threading
 import sys
+from datetime import datetime
 
 host = 'localhost'
 port = 12345
 utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 run_program = True
+_message_history = []
+
+class Message(object):
+    def __init__(self, content):
+        self.content = content
+        self.receiveDate = datetime.now()
+
+    def print(self):
+        print(self.content)
+
+    def printWithTime(self):
+        print(self.receiveDate.strftime("%H:%M:%S") + " " + self.content)
+
+def appendMessage(new_message):
+    if len(_message_history) >= 15:
+        _message_history.pop(0)
+    _message_history.append(new_message)
+
+def printLastMessages():
+    for message in _message_history:
+        message.printWithTime()
 
 def process_incoming_messages(client_socket): 
     global run_program
     while run_program:
-        message = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
-        print(message)
+        message_content = client_socket.recv(data_payload_limit).decode(utf_8_encoding)
+        message = Message(message_content)
+        
+        message.print()
+        appendMessage(message)
     
     client_socket.close()
     sys.exit()
@@ -25,7 +50,7 @@ def process_command(command):
 
     match command.upper():
         case "@ORDENAR":
-            print("Ordenando mensagens")
+            printLastMessages()
         case "@SAIR":
             run_program = False
         case "@UPLOAD":
@@ -45,12 +70,14 @@ proccess_incoming_message_thread.start()
 
 while run_program:
     try:
-        message = input()
+        input_content = input()
 
-        if is_command(message):
-            process_command(message)
+        if is_command(input_content):
+            process_command(input_content)
         else:
-            client_socket.send(message.encode('utf-8'))
+            message = Message(input_content)
+            appendMessage(message)
+            client_socket.send(message.content.encode(utf_8_encoding))
 
     except socket.error as e:
         print("Socket error: %s" %str(e))
