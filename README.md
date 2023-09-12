@@ -25,8 +25,8 @@ Para iniciar o cliente, use o comando `python3 chat_client.py`. Automaticamente 
 - [ ]  Criar uma forma do cliente enviar arquivos para o servidor
 - [ ]  Criar variáveis de entrada para o ip e porta do servidor no client.
 - [ ]  Criar variável de entrada para porta no servidor
+- [ ]  Estudar se vale a pena encapsular o servidor
  
-
 ## Contribuindo ⚒️
 
 Contribuições são sempre bem-vindas!
