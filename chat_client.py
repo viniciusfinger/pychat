@@ -2,6 +2,7 @@ import socket
 import threading
 import sys
 from datetime import datetime
+from os import name, system
 
 host = 'localhost'
 port = 12345
@@ -45,10 +46,18 @@ def process_incoming_messages(client_socket):
 def is_command(message):
     return message[0] == '@'
 
+def clear_chat():
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
+
 def process_command(command):
     global run_program
 
     match command.upper():
+        case "@AJUDA":
+            print("Aqui deverá listar os comandos.")
         case "@ORDENAR":
             printLastMessages()
         case "@SAIR":
@@ -57,6 +66,8 @@ def process_command(command):
             print("Upando arquivo.")
         case "@DOWNLOAD":
             print("Baixando arquivo.")
+        case "@LIMPAR":
+            clear_chat()
         case _:
             print("Comando inválido. Digite novamente.")
 
