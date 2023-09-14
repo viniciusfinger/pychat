@@ -20,12 +20,12 @@ Para iniciar o cliente, use o comando `python3 chat_client.py`. Automaticamente 
 - [x]  Avisar todos listeners que um cliente novo foi conectado
 - [x]  Encapsular o método send do socket na classe client
 - [x]  Criar estrutura para armazenamento de mensagens no cliente que permita ordenação por hora (talvez encapsular as mensagens.)
-- [ ]  Criar comando @AJUDA no cliente para listar os comandos possíveis.
+- [x]  Criar comando @AJUDA no cliente para listar os comandos possíveis.
 - [ ]  Criar uma forma de armazenar arquivos no servidor e transitar isso para o cliente
 - [ ]  Criar uma forma do cliente enviar arquivos para o servidor
 - [ ]  Criar variáveis de entrada para o ip e porta do servidor no client.
 - [ ]  Criar variável de entrada para porta no servidor
-- [ ]  Estudar se vale a pena encapsular o servidor
+- [ ]  Testar rodando em duas máquinas diferentes
  
 ## Contribuindo ⚒️
 

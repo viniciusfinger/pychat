@@ -31,6 +31,9 @@ def printLastMessages():
     for message in _message_history:
         message.printWithTime()
 
+def is_command(message):
+    return message[0] == '@'
+
 def process_incoming_messages(client_socket): 
     global run_program
     while run_program:
@@ -43,8 +46,13 @@ def process_incoming_messages(client_socket):
     client_socket.close()
     sys.exit()
 
-def is_command(message):
-    return message[0] == '@'
+def print_help():
+    print("--------------------------------")
+    print("Comandos possíveis:")
+    print("@ORDENAR -> exibe as últimas 15 mensagens")
+    print("@SAIR -> encerrar o chat")
+    print("@LIMPAR -> limpar o chat")
+    print("--------------------------------")
 
 def clear_chat():
     if name == 'nt':
@@ -57,7 +65,7 @@ def process_command(command):
 
     match command.upper():
         case "@AJUDA":
-            print("Aqui deverá listar os comandos.")
+            print_help()
         case "@ORDENAR":
             printLastMessages()
         case "@SAIR":
