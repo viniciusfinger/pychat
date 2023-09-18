@@ -1,8 +1,9 @@
 import socket
 import threading
+import sys
 
-host = 'localhost'
-port = 12345
+host = '0.0.0.0'
+port = port = int(sys.argv[1]) if len(sys.argv) > 1 else 19000
 utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 clients_listening = []
@@ -41,8 +42,10 @@ def handle_client(client):
 
     except socket.error as e:
         print("[Servidor]: Erro no socket: %s" %str(e))
+        server_socket.close()
     except Exception as e:
         print("[Servidor]: Erro inesperado: %s" %str(e))
+        server_socket.close()
         raise e
 
 def notify_other_clients(message, client_to_not_notify):

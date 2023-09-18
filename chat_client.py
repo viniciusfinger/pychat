@@ -4,8 +4,11 @@ import sys
 from datetime import datetime
 from os import name, system
 
-host = 'localhost'
-port = 12345
+if len(sys.argv) < 2:
+    print("Usage: python3 chat_client.py SERVER_IP PORT")
+
+host = sys.argv[1]
+port = int(sys.argv[2])
 utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 run_program = True

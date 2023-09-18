@@ -6,11 +6,11 @@ Um chat no terminal usando Python + sockets de rede
 
 ## Como usar 🤔
 
-Para usar, usando o seu terminal navegue até o diretório que contém os arquivos `chat_server` e `chat_client`.
+Usando o terminal navegue até o diretório que contém os arquivos `chat_server.py` e `chat_client.py`.
 
-Inicie o servidor usando o comando `python3 chat_server.py`. A partir disso, você terá um servidor na porta `12345`.
+Inicie o servidor usando o comando `python3 chat_server.py [porta]`. Caso não insira nenhuma porta, o servidor iniciará na porta `19000`.
 
-Para iniciar o cliente, use o comando `python3 chat_client.py`. Automaticamente se conectará ao servidor no localhost.
+Para iniciar o cliente, use o comando `python3 chat_client.py [IP do servidor] [Porta do servidor]`.
 
 ## To-do
 - [x]  Criar estrutura para encapsular clientes
@@ -21,10 +21,10 @@ Para iniciar o cliente, use o comando `python3 chat_client.py`. Automaticamente 
 - [x]  Encapsular o método send do socket na classe client
 - [x]  Criar estrutura para armazenamento de mensagens no cliente que permita ordenação por hora (talvez encapsular as mensagens.)
 - [x]  Criar comando @AJUDA no cliente para listar os comandos possíveis.
+- [X]  Criar variáveis de entrada para o ip e porta do servidor no client.
+- [X]  Criar variável de entrada para porta no servidor
 - [ ]  Criar uma forma de armazenar arquivos no servidor e transitar isso para o cliente
 - [ ]  Criar uma forma do cliente enviar arquivos para o servidor
-- [ ]  Criar variáveis de entrada para o ip e porta do servidor no client.
-- [ ]  Criar variável de entrada para porta no servidor
 - [ ]  Testar rodando em duas máquinas diferentes
  
 ## Contribuindo ⚒️
