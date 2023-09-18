@@ -42,9 +42,11 @@ def handle_client(client):
 
     except socket.error as e:
         print("[Servidor]: Erro no socket: %s" %str(e))
+        disconnect_all_clients()
         server_socket.close()
     except Exception as e:
         print("[Servidor]: Erro inesperado: %s" %str(e))
+        disconnect_all_clients()
         server_socket.close()
         raise e
 
@@ -53,6 +55,10 @@ def notify_other_clients(message, client_to_not_notify):
         for listener_client in clients_listening: 
             if listener_client != client_to_not_notify:
                 listener_client.sendMessage(message)
+
+def disconnect_all_clients():
+    for client in clients_listening:
+        client.socket.close()
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
