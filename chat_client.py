@@ -25,12 +25,12 @@ class Message(object):
     def printWithTime(self):
         print(self.receiveDate.strftime("%H:%M:%S") + " " + self.content)
 
-def appendMessage(new_message):
+def append_message(new_message):
     if len(_message_history) >= 15:
         _message_history.pop(0)
     _message_history.append(new_message)
 
-def printLastMessages():
+def print_last_messages():
     for message in _message_history:
         message.printWithTime()
 
@@ -44,7 +44,7 @@ def process_incoming_messages(client_socket):
         message = Message(message_content)
         
         message.print()
-        appendMessage(message)
+        append_message(message)
     
     client_socket.close()
     sys.exit()
@@ -70,7 +70,7 @@ def process_command(command):
         case "@AJUDA":
             print_help()
         case "@ORDENAR":
-            printLastMessages()
+            print_last_messages()
         case "@SAIR":
             run_program = False
         case "@UPLOAD":
@@ -98,7 +98,7 @@ while run_program:
             process_command(input_content)
         else:
             message = Message(input_content)
-            appendMessage(message)
+            append_message(message)
             client_socket.send(message.content.encode(utf_8_encoding))
 
     except socket.error as e:
