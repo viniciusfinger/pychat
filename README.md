@@ -7,9 +7,11 @@ Um chat no terminal usando Python + sockets de rede
 
 Usando o terminal navegue até o diretório que contém os arquivos `chat_server.py` e `chat_client.py`.
 
-Inicie o servidor usando o comando `python3 chat_server.py [porta]`. Caso não insira nenhuma porta, o servidor iniciará na porta `19000`.
+Primeiro inicie o servidor usando o comando `python3 chat_server.py [Porta]`. Caso não insira nenhuma porta, o servidor iniciará na porta `19000`.
 
-Para iniciar o cliente, use o comando `python3 chat_client.py [IP do servidor] [Porta do servidor]`.
+Para iniciar o cliente, use o comando `python3 chat_client.py [IP do servidor] [Porta]`.
+
+Para ver os possíveis comandos, digite `@AJUDA`.
  
 ## Arquitetura ⚙️
 O chat está arquitetado no modelo client-server, ou seja, no meio de todos os clients temos o servidor fazendo o recebimento e distribuição das mensagens.
