@@ -28,14 +28,6 @@ class Client(object):
     def send_message(self, message):
         self.socket.send((message).encode(utf_8_encoding))
 
-def list_files_to_download(client):
-    if os.path.exists(folder_path) and os.path.isdir(folder_path):
-        files = os.listdir(folder_path)
-        for index, file in enumerate(files):
-            file_path = os.path.join(folder_path, file)
-            if os.path.isfile(file_path):
-                client.send_message(str(index) + ' - ' + file)
-
 def handle_client(client):
     try: 
         client_is_connected = client.socket is not None
@@ -45,7 +37,7 @@ def handle_client(client):
             message = client.socket.recv(data_payload_limit).decode(utf_8_encoding)
             
             if message:
-                message = client.username + ": " + message
+                message = client.username + ":: " + message
                 print(message)
                 notify_other_clients(message, client)
 
