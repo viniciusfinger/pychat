@@ -5,10 +5,11 @@ from datetime import datetime
 from os import name, system
 
 if len(sys.argv) < 2:
-    print("Usage: python3 chat_client.py SERVER_IP PORT")
+    print("Usage: python3 chat_client.py IP [PORT]")
+    sys.exit(1)
 
 host = sys.argv[1]
-port = int(sys.argv[2])
+port = int(sys.argv[2]) if len(sys.argv) > 2 else 19000
 utf_8_encoding = 'utf-8'
 data_payload_limit = 2048
 run_program = True
