@@ -17,13 +17,13 @@ _message_history = []
 class Message(object):
     def __init__(self, content):
         self.content = content
-        self.receiveDate = datetime.now()
+        self.receive_date = datetime.now()
 
     def print(self):
         print(self.content)
 
-    def printWithTime(self):
-        print(self.receiveDate.strftime("%H:%M:%S") + " " + self.content)
+    def print_with_time(self):
+        print(self.receive_date.strftime("%H:%M:%S") + " " + self.content)
 
 def append_message(new_message):
     if len(_message_history) >= 15:
@@ -73,10 +73,6 @@ def process_command(command):
             print_last_messages()
         case "@SAIR":
             run_program = False
-        case "@UPLOAD":
-            print("Upando arquivo.")
-        case "@DOWNLOAD":
-            print("Baixando arquivo.")
         case "@LIMPAR":
             clear_chat()
         case _:
